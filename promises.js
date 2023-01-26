@@ -80,3 +80,24 @@ fetch("http://localhost:3000/login", {
   .catch((err) => {
     console.log(err);
   });
+
+const loadData = () => {
+  try {
+    const res = fetch("http://localhost:3000/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: "yagnesh.modh@gmail.com",
+        password: "abcd",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json", // validation
+      },
+    });
+    console.log(res);
+  } catch (error) {
+  } finally {
+  }
+};
+
+loadData();
