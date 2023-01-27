@@ -2,6 +2,7 @@ const loadData = async () => {
   let loading;
   try {
     loading = true;
+    // 2 minutes
     const loginRes = await fetch("http://localhost:3000/login", {
       method: "POST",
       body: JSON.stringify({
@@ -13,6 +14,7 @@ const loadData = async () => {
         Accept: "application/json", // validation
       },
     });
+
     const loginJSON = await loginRes.json();
     if (!loginRes.ok) {
       throw new Error(loginJSON);
