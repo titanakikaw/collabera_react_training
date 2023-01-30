@@ -6,11 +6,15 @@
   "repository": "https://github.com/the-special-character/collabera_react_training.git",
   "author": "Yagnesh Modh <yagnesh.modh@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode=production"
+  },
   "keywords": [
     "Javascript",
     "React"
   ],
   "devDependencies": {
-    "webpack": "^5.75.0"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
