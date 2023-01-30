@@ -1,6 +1,6 @@
 // advance Javascript Techniques
 
-export const x = 5;
+export const x = 8;
 
 export const y = 10;
 
