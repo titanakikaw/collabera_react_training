@@ -5,13 +5,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Old Javascript Technique to Export content
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: { path: path.resolve(__dirname, 'dist'), filename: 'main.js' },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: 'babel-loader',
       },
@@ -22,6 +22,9 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'],
   },
   plugins: [
     new HtmlWebpackPlugin({
