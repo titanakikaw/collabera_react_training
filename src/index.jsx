@@ -1,36 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { createRoot } from 'react-dom/client';
+import Test from './test';
 import '../style.scss';
 
 const container = document.getElementById('root');
 
 const root = createRoot(container);
 
-// Reusable Component
+// const testVar = 5;
 
-const bgColor = 'red';
-const color = 'white';
+// Test.getDerivedStateFromProps = (props, state) => ({
+//   count: props.count + testVar,
+// });
 
-// First letter of the component name should be capital
-// From Each component return single Element
-// inline style should be object and property name should be in camel case
-// instead of class use className
+class App extends Component {
+  state = {
+    count: 2,
+  };
 
-// props are immutable
-function App({ title, desc }) {
-  return (
-    <div className="container">
-      <h1>{title}</h1>
-      <h2>{desc}</h2>
-      <input type="checkbox" />
-    </div>
-  );
+  increment = () => {
+    this.setState(({ count }) => ({ count: count + 1 }));
+  };
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <>
+        <Test count={count} />
+        <button type="button" onClick={this.increment}>
+          Increment Count
+        </button>
+      </>
+    );
+  }
 }
 
-root.render(
-  <>
-    <App title="Yagnesh Modh" desc="Full Stack Developer" />
-    <App title="Virat Kohli" desc="Cricketor" />
-    <App title="Rohit Sharma" desc="Cricketor" />
-  </>,
-);
+root.render(<App />);
