@@ -16,10 +16,10 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.css$/i,
         exclude: /node_modules/,
         // sequance should be right to left
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
     ],
   },

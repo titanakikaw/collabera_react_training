@@ -18,13 +18,17 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 // 2. Updating
 // -> getDerivedStateFromProps
-// -> shouldComponentUpdate
+// -> shouldComponentUpdate (imp for improve performace)
 // -> render
 // -> getSnapshotBeforeUpdate
 // -> componentDidUpdate
 
 // 3. Unmounting
+// -> componentWillUnmount (imp for avoid memory leak problem)
+
 // 4. Error
+// -> getDerivedStateFromError
+// -> componentDidCatch
 
 export default class Test extends PureComponent {
   state = {
@@ -46,6 +50,8 @@ export default class Test extends PureComponent {
     // this.increment = this.increment.bind(this);
     // this.decrement = this.decrement.bind(this);
     // API call for analytics
+    this.controller = new AbortController();
+    // this.signal = this.controller.signal;
   }
 
   // Base on old prop value or old State value derive new State value
@@ -84,6 +90,7 @@ export default class Test extends PureComponent {
   // register any document events
   // on the page load if you want to display any data through server call
   // call only once
+
   async componentDidMount() {
     console.log(document.getElementsByTagName('button'));
     // const btns = document.getElementsByTagName('button');
@@ -91,15 +98,29 @@ export default class Test extends PureComponent {
     //   const element = btns[i];
     //   element.style.backgroundColor = 'blue';
     // }
-    document.addEventListener('copy', () => {
-      console.log('copied');
-    });
-    // try {
-    //   const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-    //   const json = await res.json();
-    //   this.setState({ todoItem: json });
-    // } catch (error) {}
+    document.addEventListener('mousemove', this.mouseMove);
+    this.interval = setInterval(() => {
+      console.log('interval');
+    }, 1000);
+    try {
+      const res = await fetch('https://jsonplaceholder.typicode.com/todos/1', {
+        signal: this.controller.signal,
+      });
+      const json = await res.json();
+      this.setState({ todoItem: json });
+    } catch (error) {}
   }
+
+  // remove all the async code from the componet when you remove component
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.mouseMove);
+    clearInterval(this.interval);
+    this.controller.abort();
+  }
+
+  mouseMove = () => {
+    console.log('mouse move');
+  };
 
   increment = () => {
     this.setState(state => ({
@@ -116,6 +137,7 @@ export default class Test extends PureComponent {
   render() {
     console.log('render test');
     const { count, name, todoItem } = this.state;
+    throw new Error('something went wrong');
 
     return (
       <div>

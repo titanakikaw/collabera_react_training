@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createRoot } from 'react-dom/client';
 import Test from './test';
-import '../style.scss';
+import './style.css';
 
 const container = document.getElementById('root');
 
@@ -23,15 +23,38 @@ class App extends Component {
     this.setState({ name: 'Yagnesh' });
   };
 
+  changeCount = () => {
+    this.setState(({ count }) => ({ count: count + 1 }));
+  };
+
+  static getDerivedStateFromError(error) {
+    return {
+      error,
+    };
+  }
+
+  //   store this error on server
+  componentDidCatch(error, errorInfo) {
+    console.log(errorInfo.componentStack);
+  }
+
   render() {
-    const { count, name } = this.state;
+    const { count, name, error } = this.state;
     console.log('render app');
+    if (error) {
+      return <h1>{error.message}</h1>;
+    }
+
     return (
       <>
-        <Test count={count} />
+        {count < 5 && <Test count={count} />}
         <p>{name}</p>
         <button type="button" onClick={this.changeName}>
           Change Name
+        </button>
+
+        <button type="button" onClick={this.changeCount}>
+          Change Count
         </button>
       </>
     );
