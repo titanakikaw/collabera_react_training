@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 
 // Virtual Dom is copy of the actual DOM which is stored in app memory
 
@@ -16,13 +17,20 @@ import React, { Component } from 'react';
 // -> componentDidMount (call only once)
 
 // 2. Updating
+// -> getDerivedStateFromProps
+// -> shouldComponentUpdate
+// -> render
+// -> getSnapshotBeforeUpdate
+// -> componentDidUpdate
+
 // 3. Unmounting
 // 4. Error
 
-export default class Test extends Component {
+export default class Test extends PureComponent {
   state = {
     name: 'Yagnesh',
     todoItem: null,
+    count: 0,
   };
 
   // Base on Prop value set state value
@@ -42,11 +50,34 @@ export default class Test extends Component {
 
   // Base on old prop value or old State value derive new State value
   //  calls every time whenever we change state value or prop
-  static getDerivedStateFromProps(props, state) {
-    return {
-      count: props.count,
-    };
-  }
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     count: props.count !== state.count ? props.count : state.count,
+  //   };
+
+  //   // if (this.props.count !== props.count) {
+  //   //   return {
+  //   //     count: props.count,
+  //   //   };
+  //   // }
+  //   // if (this.state.count !== state.count) {
+  //   //   return {
+  //   //     count: state.count,
+  //   //   };
+  //   // }
+  // }
+
+  // Most Important life cycle method
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return shallowCompare(this, nextProps, nextState);
+  //   // if (this.props !== nextProps || this.state !== nextState) {
+  //   //   return true;
+  //   // }
+  //   // return false;
+  // }
+
+  // manipulate your DOM element
+  componentDidUpdate(prevProps, prevState) {}
 
   // html is mounted after that this life cycle method called
   // manipulate dom element
@@ -63,11 +94,11 @@ export default class Test extends Component {
     document.addEventListener('copy', () => {
       console.log('copied');
     });
-    try {
-      const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-      const json = await res.json();
-      this.setState({ todoItem: json });
-    } catch (error) {}
+    // try {
+    //   const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+    //   const json = await res.json();
+    //   this.setState({ todoItem: json });
+    // } catch (error) {}
   }
 
   increment = () => {
@@ -83,7 +114,7 @@ export default class Test extends Component {
   };
 
   render() {
-    console.log('render');
+    console.log('render test');
     const { count, name, todoItem } = this.state;
 
     return (

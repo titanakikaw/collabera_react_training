@@ -16,20 +16,22 @@ const root = createRoot(container);
 class App extends Component {
   state = {
     count: 2,
+    name: 'Virat',
   };
 
-  increment = () => {
-    this.setState(({ count }) => ({ count: count + 1 }));
+  changeName = () => {
+    this.setState({ name: 'Yagnesh' });
   };
 
   render() {
-    const { count } = this.state;
-
+    const { count, name } = this.state;
+    console.log('render app');
     return (
       <>
         <Test count={count} />
-        <button type="button" onClick={this.increment}>
-          Increment Count
+        <p>{name}</p>
+        <button type="button" onClick={this.changeName}>
+          Change Name
         </button>
       </>
     );
