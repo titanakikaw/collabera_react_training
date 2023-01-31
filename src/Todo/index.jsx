@@ -1,34 +1,76 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+  createRef,
+} from 'react';
+import clsx from 'clsx';
 import './todo.css';
 
 export default class Todo extends Component {
   state = {
-    todoText: '',
     todoList: [],
   };
 
-  changeText = event => {
-    this.setState({
-      todoText: event.target.value,
-    });
-  };
+  todoText = createRef();
 
   addTodo = event => {
     event.preventDefault();
-    this.setState(({ todoText, todoList }) => ({
-      todoList: [
-        ...todoList,
-        {
-          id: new Date().valueOf(),
-          text: todoText,
-        },
-      ],
-      todoText: '',
-    }));
+    // O(logN)
+    // const todoText =
+    //   document.getElementById('todo_input');
+
+    // O(1)
+
+    // async
+    this.setState(
+      ({ todoList }) => ({
+        todoList: [
+          ...todoList,
+          {
+            id: new Date().valueOf(),
+            text: this.todoText.current.value,
+            isDone: false,
+          },
+        ],
+      }),
+      () => {
+        this.todoText.current.value = '';
+      },
+    );
+  };
+
+  toggleComplete = item => {
+    this.setState(({ todoList }) => {
+      // O(logN)
+      const index = todoList.findIndex(
+        x => x.id === item.id,
+      );
+      return {
+        todoList: [
+          ...todoList.slice(0, index),
+          { ...item, isDone: !item.isDone },
+          ...todoList.slice(index + 1),
+        ],
+      };
+    });
+  };
+
+  deleteTodo = item => {
+    this.setState(({ todoList }) => {
+      const index = todoList.findIndex(
+        x => x.id === item.id,
+      );
+      return {
+        todoList: [
+          ...todoList.slice(0, index),
+          ...todoList.slice(index + 1),
+        ],
+      };
+    });
   };
 
   render() {
-    const { todoText, todoList } = this.state;
+    console.log('render');
+    const { todoList } = this.state;
 
     return (
       <div className="todo">
@@ -38,10 +80,9 @@ export default class Todo extends Component {
           onSubmit={this.addTodo}
         >
           <input
+            ref={this.todoText}
             type="text"
             className="todo_form__input"
-            value={todoText}
-            onChange={this.changeText}
           />
           <button
             type="submit"
@@ -50,10 +91,62 @@ export default class Todo extends Component {
             Add Todo
           </button>
         </form>
-        <div>
+        <div className="w-full flex-1">
           {todoList.map(item => (
-            <p key={item.id}>{item.text}</p>
+            <div
+              key={item.id}
+              className="flex items-center m-4"
+            >
+              <input
+                type="checkbox"
+                checked={item.isDone}
+                onChange={() =>
+                  this.toggleComplete(item)
+                }
+              />
+              <p
+                className={clsx('flex-1 px-4', {
+                  'line-through': item.isDone,
+                })}
+                // style={{
+                //   textDecoration: item.isDone
+                //     ? 'line-through'
+                //     : 'none',
+                // }}
+              >
+                {item.text}
+              </p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() =>
+                  this.deleteTodo(item)
+                }
+              >
+                Delete
+              </button>
+            </div>
           ))}
+        </div>
+        <div className="w-full flex">
+          <button
+            type="button"
+            className="btn flex-1"
+          >
+            All
+          </button>
+          <button
+            type="button"
+            className="btn flex-1"
+          >
+            Pending
+          </button>
+          <button
+            type="button"
+            className="btn flex-1"
+          >
+            Completed
+          </button>
         </div>
       </div>
     );

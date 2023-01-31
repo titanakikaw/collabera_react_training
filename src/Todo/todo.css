@@ -1,5 +1,5 @@
 .todo {
-  @apply flex flex-col items-center;
+  @apply flex flex-col items-center h-screen;
 
   &__title {
     @apply text-2xl my-4 text-blue-500;
