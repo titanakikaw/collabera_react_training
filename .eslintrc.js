@@ -14,5 +14,6 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': 0,
     'react/state-in-constructor': 0,
+    'react/jsx-props-no-spreading': 0,
   },
 };
