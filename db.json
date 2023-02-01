@@ -10,5 +10,27 @@
       "isDone": false,
       "id": 3
     }
+  ],
+  "WeatherList": [
+    {
+      "Name": "Manila",
+      "temp": 60,
+      "tempType": "C"
+    },
+    {
+      "Name": "Makati",
+      "temp": 10,
+      "tempType": "F"
+    },
+    {
+      "Name": "Pasay",
+      "temp": 110,
+      "tempType": "F"
+    },
+    {
+      "Name": "Quezon",
+      "temp": 30,
+      "tempType": "F"
+    }
   ]
 }
