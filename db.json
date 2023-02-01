@@ -10,5 +10,17 @@
       "isDone": false,
       "id": 3
     }
+  ],
+  "weatherList": [
+    {
+      "cityName": "Ahmedabad",
+      "temp": 30,
+      "tempType": "C"
+    },
+    {
+      "cityName": "Mumbai",
+      "temp": 30,
+      "tempType": "C"
+    }
   ]
 }
