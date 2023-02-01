@@ -2,8 +2,13 @@
   "todoList": [
     {
       "text": "Learn React",
-      "isDone": false,
+      "isDone": true,
       "id": 2
+    },
+    {
+      "text": "fasdfadsf",
+      "isDone": false,
+      "id": 3
     }
   ]
 }

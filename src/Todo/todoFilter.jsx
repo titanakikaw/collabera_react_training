@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 const filterBtns = [
@@ -16,7 +17,7 @@ const filterBtns = [
   },
 ];
 
-function TodoFilter({ setFilterType }) {
+function TodoFilter({ setFilterType, filterType }) {
   console.log('TodoFilter render');
   return (
     <div className="w-full flex">
@@ -24,7 +25,9 @@ function TodoFilter({ setFilterType }) {
         <button
           key={x.value}
           type="button"
-          className="btn flex-1"
+          className={clsx('btn flex-1', {
+            'btn--active': filterType === x.value,
+          })}
           onClick={() => setFilterType(x.value)}
         >
           {x.text}
@@ -36,6 +39,7 @@ function TodoFilter({ setFilterType }) {
 
 TodoFilter.propTypes = {
   setFilterType: PropTypes.func.isRequired,
+  filterType: PropTypes.oneOf(['all', 'pending', 'completed']).isRequired,
 };
 
 export default memo(TodoFilter);
